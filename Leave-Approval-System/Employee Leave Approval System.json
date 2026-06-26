@@ -1,0 +1,197 @@
+{
+  "name": "Employee Leave Approval System",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b2a145d4-a1ce-4654-bad2-968a75fee361",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74f6de0c-288a-4332-88f3-e8edc52372e2",
+              "name": "Employee",
+              "value": "Diljith",
+              "type": "string"
+            },
+            {
+              "id": "fadd737c-c613-4330-aa68-ae0d70e9a669",
+              "name": "Department",
+              "value": "IT",
+              "type": "string"
+            },
+            {
+              "id": "f1d7b7c2-71b1-4063-be47-1f67de2d5223",
+              "name": "LeaveDays",
+              "value": 3,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8c6945aa-6010-4ae4-a5fb-b208d7bb75df",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c9b58724-aa3e-4eba-a50b-27dcaf24faae",
+              "leftValue": "={{ $json.LeaveDays }}",
+              "rightValue": 5,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "d54b9d88-126f-4bad-8d8a-7e7fb60dbf48",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "faf82094-550b-4886-9228-11213a0decd3",
+              "name": "Status",
+              "value": "Manager Approval Required",
+              "type": "string"
+            },
+            {
+              "id": "5981aa1b-1f3a-4f85-9dfb-50783af7d001",
+              "name": "Message",
+              "value": "=Hello {{$json.Employee}},\n\nYour leave request for {{$json.LeaveDays}} days requires manager approval.\n\nDepartment: {{$json.Department}}\n\nStatus: {{$json.Status}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "7a009d5c-a007-4196-9c8e-f4e7bca12690",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "038988c2-0ddb-4173-9ba5-fff9f4212c9c",
+              "name": "Status",
+              "value": "Approved",
+              "type": "string"
+            },
+            {
+              "id": "20704268-62a9-4dbe-876b-8dd596e3efe5",
+              "name": "Message",
+              "value": "=Hello {{$json.Employee}},\n\nYour leave request has been approved.\n\nDepartment: {{$json.Department}}\n\nLeave Days: {{$json.LeaveDays}}\n\nStatus: Approved",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        96
+      ],
+      "id": "931266a1-eac4-4cc2-967b-ad3d1133d1af",
+      "name": "Edit Fields2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "c4bddbec-b81c-4d69-a6ac-24c57610f644",
+  "meta": {
+    "instanceId": "c7bdacab5f6c7cac51b8d481aa6b69f6cc9c6dc093d98cfa7f89ebcf905dce0c"
+  },
+  "id": "LT1IgWGZUQyY080I",
+  "tags": []
+}
