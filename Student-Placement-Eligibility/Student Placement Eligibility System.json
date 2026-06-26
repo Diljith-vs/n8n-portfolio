@@ -1,0 +1,278 @@
+{
+  "name": "Student Placement Eligibility System",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4a6b1830-2cca-40c8-b089-65edacc4f0de",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cb192ecc-f9e0-4623-9dca-487c01c216c3",
+              "name": "Name",
+              "value": "Diljith",
+              "type": "string"
+            },
+            {
+              "id": "b321107f-3e1e-4ea9-a7a7-a77f8efcd66e",
+              "name": "Branch",
+              "value": "CSE",
+              "type": "string"
+            },
+            {
+              "id": "d4c0aca8-21a8-48c2-ae28-5df29ec4c118",
+              "name": "CGPA",
+              "value": 8,
+              "type": "number"
+            },
+            {
+              "id": "66209731-0b0d-4c3e-b01e-d0655a7c1a31",
+              "name": "Email",
+              "value": "diljithvs11@gmail.com",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "34f31c41-27ee-450d-b042-92b27b561d13",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4ecc1dc0-06eb-4e29-9881-dd9c8417f0fc",
+              "leftValue": "={{ $json.CGPA }}",
+              "rightValue": 8,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "61be517f-6aca-4902-8341-0fb1660013bb",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "904b14f6-358f-44d6-bf2e-5ce611d87a9a",
+              "name": "Status",
+              "value": "Eligible",
+              "type": "string"
+            },
+            {
+              "id": "f12aec2d-b9f2-4d82-9cfb-e20416aa5928",
+              "name": "Company",
+              "value": "TCS",
+              "type": "string"
+            },
+            {
+              "id": "59499a57-5628-4b7f-86bc-50d978ded1e3",
+              "name": "Salary",
+              "value": "7 LPA",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        -96
+      ],
+      "id": "52f65efb-dec0-49fe-a57a-2265839e90ec",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c8ccfe76-921a-4e82-b5c9-2489ab92c433",
+              "name": "Status",
+              "value": "Not Eligible",
+              "type": "string"
+            },
+            {
+              "id": "78db3e75-4d67-4569-8cf5-8dcf501afd8b",
+              "name": "Reason",
+              "value": "CGPA below requirement",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        96
+      ],
+      "id": "4028311d-4a34-4d4c-928f-ea7b94ff380e",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        864,
+        -16
+      ],
+      "id": "20dc6d05-1046-4e11-93d2-7fe14139a996",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2beffe63-2f24-4a79-83d6-7d69261bcc7a",
+              "name": "Message",
+              "value": "=Hello {{$json.Name}},\n\nBranch: {{$json.Branch}}\n\nCGPA: {{$json.CGPA}}\n\nStatus: {{$json.Status}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        -16
+      ],
+      "id": "a24aeb2a-09d6-407e-a7c3-72b919e8c1de",
+      "name": "Edit Fields3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "c5f2bef2-5b4c-420f-b5dd-0e9d3060d5ef",
+  "meta": {
+    "instanceId": "c7bdacab5f6c7cac51b8d481aa6b69f6cc9c6dc093d98cfa7f89ebcf905dce0c"
+  },
+  "id": "FDq9Gj1p57q0S5uu",
+  "tags": []
+}
