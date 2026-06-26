@@ -1,0 +1,284 @@
+{
+  "name": "Employee Directory Report",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "54399680-d7ec-465a-b9a1-58284aea2b95",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://jsonplaceholder.typicode.com/users",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "66f311e0-0d0b-4d39-8c37-4a4c186ac821",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3fcd95ef-e571-47c7-bdd1-92d856041aa5",
+              "leftValue": "={{ $json.company.name }}",
+              "rightValue": "Romaguera-Crona",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "77d4df3c-54f0-4086-826d-3cb21c9b3656",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b4cf1883-4630-44e7-b3da-b4d2dcca6fe7",
+              "name": "Employee",
+              "value": "={{$json.name}}",
+              "type": "string"
+            },
+            {
+              "id": "e70e1b34-73b5-4bda-84a5-1ead2406d7a7",
+              "name": "Company",
+              "value": "={{$json.company.name}}",
+              "type": "string"
+            },
+            {
+              "id": "2ecbbd4c-5b5f-4142-8849-a6518ba5d1d7",
+              "name": "Email",
+              "value": "={{$json.email}}",
+              "type": "string"
+            },
+            {
+              "id": "d12454d2-4906-4a03-826e-a03d52d4ed12",
+              "name": "CIty",
+              "value": "={{$json.address.city}}",
+              "type": "string"
+            },
+            {
+              "id": "7cad8bc9-3f73-459c-b7b4-738cf3079527",
+              "name": "Status",
+              "value": "Target Company",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "298c5514-f888-452e-a2aa-75ed1c7e5513",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4a1bd635-5ca6-4ad6-a8b4-3479dcc01ad7",
+              "name": "Employee",
+              "value": "={{$json.name}}",
+              "type": "string"
+            },
+            {
+              "id": "dc2eb746-9a49-4923-89b7-24ae407a52d5",
+              "name": "Company",
+              "value": "={{$json.company.name}}",
+              "type": "string"
+            },
+            {
+              "id": "ca4176d5-d43f-4400-aa9c-ffab0ab3a2f8",
+              "name": "Email",
+              "value": "={{$json.email}}",
+              "type": "string"
+            },
+            {
+              "id": "d03dcfdd-f682-41a6-a45c-61d4e0d19c12",
+              "name": "City",
+              "value": "={{$json.address.city}}",
+              "type": "string"
+            },
+            {
+              "id": "ea7d135c-ba82-4a81-89c3-916a7e4bfac1",
+              "name": "Status",
+              "value": "Other Company",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        96
+      ],
+      "id": "21a33593-330b-47cb-80b3-1a6565b8466c",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        848,
+        -16
+      ],
+      "id": "61724e2a-0931-46a8-ae7b-55abf8c86900",
+      "name": "Merge",
+      "retryOnFail": false,
+      "executeOnce": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f386ff7b-3b8d-4452-a596-bb0fb21a1da7",
+              "name": "Report",
+              "value": "=Employee: {{$json.Employee}}\n\nCompany: {{$json.Company}}\n\nCity: {{$json.address.city}}\n\nEmail: {{$json.Email}}\n\nStatus: {{$json.Status}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1056,
+        -16
+      ],
+      "id": "7a802649-4273-4c61-a6fb-69607ce4eec5",
+      "name": "Edit Fields2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "22aa9f41-f4bd-4cd4-b76c-1e1b4942cf88",
+  "meta": {
+    "instanceId": "c7bdacab5f6c7cac51b8d481aa6b69f6cc9c6dc093d98cfa7f89ebcf905dce0c"
+  },
+  "id": "xwsZYYTKnJD1PX9p",
+  "tags": []
+}
